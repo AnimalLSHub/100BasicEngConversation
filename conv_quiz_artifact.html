@@ -1,0 +1,332 @@
+<title>100 Basic English Conversation Quiz</title>
+<style>
+:root{
+  --bg:#F6F8F6; --card:#FFFFFF; --ink:#33393A; --sub:#707A78;
+  --accent:#6FA8AB; --accent-dark:#4E8689; --terracotta:#E0A860;
+  --good:#4CAF87; --good-bg:#E6F4EA; --bad:#E76F51; --bad-bg:#FDEAE5;
+  --chip:#EAF0EF; --chip-border:#D8E3E1; --shadow:0 4px 14px rgba(60,90,90,0.10);
+  --sel-bg:#DCEBEA; --input-bg:#FFFFFF; --heading:#3D6E71; --overall-grad:linear-gradient(135deg,#E7F1E9,#E3EEF0);
+  --correct-text:#276749; --wrong-text:#9B3A2A; --score-none:#B4BDBB;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1B2020; --card:#242B2B; --ink:#E7EEED; --sub:#A7B3B1;
+    --accent:#7FBFC2; --accent-dark:#5FA0A3; --terracotta:#E3B274;
+    --good:#6FC79A; --good-bg:#1E3A2C; --bad:#E9836B; --bad-bg:#472621;
+    --chip:#303938; --chip-border:#414D4B; --shadow:0 4px 14px rgba(0,0,0,0.28);
+    --sel-bg:#33474A; --input-bg:#242B2B; --heading:#9BD3D4; --overall-grad:linear-gradient(135deg,#26312D,#1F3235);
+    --correct-text:#8FE3B4; --wrong-text:#F2A48F; --score-none:#8A9391;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1B2020; --card:#242B2B; --ink:#E7EEED; --sub:#A7B3B1;
+  --accent:#7FBFC2; --accent-dark:#5FA0A3; --terracotta:#E3B274;
+  --good:#6FC79A; --good-bg:#1E3A2C; --bad:#E9836B; --bad-bg:#472621;
+  --chip:#303938; --chip-border:#414D4B; --shadow:0 4px 14px rgba(0,0,0,0.28);
+  --sel-bg:#33474A; --input-bg:#242B2B; --heading:#9BD3D4; --overall-grad:linear-gradient(135deg,#26312D,#1F3235);
+  --correct-text:#8FE3B4; --wrong-text:#F2A48F; --score-none:#8A9391;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Poppins","Segoe UI","Leelawadee UI",sans-serif;line-height:1.6;}
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 80px;}
+header.top{position:sticky;top:0;background:linear-gradient(180deg,var(--bg) 85%,transparent);padding:10px 0 6px;z-index:10;}
+h1{font-size:1.4rem;margin:.2em 0;color:var(--heading);}
+h2{font-size:1.15rem;color:var(--heading);margin-top:1.6em;}
+.badge{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:2px 12px;font-size:.8rem;margin-left:8px;}
+.card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px 20px;margin:14px 0;}
+.part-title{display:flex;align-items:center;gap:10px;margin-top:28px;}
+.part-title .num{background:var(--terracotta);color:#fff;font-weight:bold;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.grouplist{display:grid;gap:10px;}
+.grow{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);cursor:pointer;border:2px solid transparent;transition:.15s;}
+.grow:hover{border-color:var(--accent);transform:translateY(-1px);}
+.grow .info{flex:1;}
+.grow .gt{font-weight:600;}
+.grow .gs{font-size:.85rem;color:var(--sub);}
+.grow .score{font-weight:700;color:var(--accent-dark);min-width:64px;text-align:right;}
+.grow .score.none{color:var(--score-none);font-weight:400;}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:12px;padding:10px 20px;font-size:1rem;cursor:pointer;font-family:inherit;transition:.15s;}
+.btn:hover{background:var(--accent-dark);}
+.btn.secondary{background:var(--chip);color:var(--ink);}
+.btn.secondary:hover{background:var(--chip-border);}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.progressbar{background:var(--chip);border-radius:999px;height:10px;overflow:hidden;margin:10px 0 18px;}
+.progressbar > div{background:var(--accent);height:100%;transition:width .25s;}
+.qnum{font-size:.85rem;color:var(--sub);margin-bottom:4px;}
+.qtext{font-size:1.12rem;margin-bottom:14px;font-weight:500;}
+.choices{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px;}
+.chip{background:var(--chip);border:2px solid var(--chip-border);border-radius:12px;padding:10px 16px;cursor:pointer;font-size:1rem;font-family:inherit;transition:.12s;color:var(--ink);}
+.chip:hover{border-color:var(--accent);}
+.chip.sel{border-color:var(--accent-dark);}
+.chip.correct{background:var(--good-bg);border-color:var(--good);color:var(--correct-text);font-weight:600;}
+.chip.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--wrong-text);}
+.chip.disabled{cursor:default;}
+.chip.faded{opacity:.45;}
+.inline-blank{display:inline-flex;flex-wrap:wrap;gap:6px;vertical-align:middle;margin:0 4px;}
+.chip-inline{margin:2px 4px;vertical-align:middle;}
+.sentence{font-size:1.12rem;line-height:2.2;}
+select.blanksel{font-family:inherit;font-size:1rem;padding:6px 10px;border-radius:10px;border:2px solid var(--chip-border);background:var(--input-bg);color:var(--ink);}
+select.blanksel.correct{border-color:var(--good);background:var(--good-bg);}
+select.blanksel.wrong{border-color:var(--bad);background:var(--bad-bg);}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.matchcol{display:flex;flex-direction:column;gap:8px;}
+.matchitem{background:var(--chip);border:2px solid var(--chip-border);border-radius:12px;padding:10px 12px;cursor:pointer;font-size:.98rem;text-align:left;}
+.matchitem.sel{border-color:var(--accent-dark);background:var(--sel-bg);}
+.matchitem.correct{background:var(--good-bg);border-color:var(--good);cursor:default;}
+.matchitem.wrong-flash{background:var(--bad-bg);border-color:var(--bad);}
+.orderrow{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;}
+.slot{min-width:110px;min-height:44px;border:2px dashed var(--chip-border);border-radius:12px;display:flex;align-items:center;justify-content:center;padding:6px 10px;font-size:.95rem;background:var(--bg);cursor:pointer;}
+.slot.filled{border-style:solid;background:var(--chip);cursor:pointer;}
+.slot.correct{border-color:var(--good);background:var(--good-bg);border-style:solid;}
+.slot.wrong{border-color:var(--bad);background:var(--bad-bg);border-style:solid;}
+.pool{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;}
+.sortbox{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px;}
+.sortcat{border:2px dashed var(--chip-border);border-radius:14px;padding:10px;min-height:120px;}
+.sortcat h4{margin:0 0 8px;color:var(--accent-dark);text-align:center;}
+.sortcat .item{background:var(--good-bg);border:2px solid var(--good);border-radius:10px;padding:6px 10px;margin:4px;display:inline-block;font-size:.9rem;}
+.table-wrap{overflow-x:auto;}
+table.qtable{border-collapse:collapse;width:100%;margin:10px 0;}
+table.qtable th,table.qtable td{border:1px solid var(--chip-border);padding:8px;text-align:center;font-size:.92rem;}
+table.qtable th{background:var(--chip);}
+.summary{text-align:center;padding:30px 10px;}
+.summary .big{font-size:2.6rem;font-weight:800;color:var(--accent-dark);}
+.instrbox{background:var(--chip);border-radius:12px;padding:10px 14px;font-size:.92rem;color:var(--sub);margin-bottom:16px;}
+.homehead{text-align:center;margin-bottom:10px;}
+.homehead p{color:var(--sub);}
+.overall{background:var(--overall-grad);border-radius:18px;padding:18px 20px;text-align:center;margin-bottom:20px;box-shadow:var(--shadow);}
+.overall .big{font-size:2.2rem;font-weight:800;color:var(--heading);}
+a.backlink{color:var(--accent-dark);text-decoration:none;font-weight:600;cursor:pointer;}
+.reveal{margin-top:10px;color:var(--sub);font-size:.92rem;}
+@media(max-width:560px){.matchgrid{grid-template-columns:1fr;}.sortbox{grid-template-columns:1fr;}}
+</style>
+<div class="wrap" id="app"></div>
+<script>
+/* ============ DATA ============ */
+const PARTS = [];
+
+PARTS.push({title:"Personal Information (ข้อมูลส่วนตัว)", groups:[
+{id:"p1", title:"Personal Information — Q1-15", type:"mc", instr:"Choose the best answer for each question.", items:[
+{s:"1. What is your full name?", c:["I like my name.","My name is Nannapat Rakdej.","I am happy now."], a:1},
+{s:"2. What is your nickname?", c:["I live here.","My nickname is Anna.","I am eight."], a:1},
+{s:"3. What is your last name?", c:["Last is not first.","My last name is Rakdej.","I don't know my last name."], a:1},
+{s:"4. How old are you?", c:["I live in a house.","I am seven years old.","My brother is tall."], a:1},
+{s:"5. When is your birthday?", c:["I have a cake.","It is in October.","The birthday is fun."], a:1},
+{s:"6. Where were you born?", c:["I am playing.","I was born in Bangkok.","I like to run."], a:1},
+{s:"7. What is your address?", c:["I live in a big town.","It's 12/5 Main Road.","I go to school."], a:1},
+{s:"8. Which province do you live in?", c:["I live with my family.","I live in Phuket.","I like the beach."], a:1},
+{s:"9. What is your favorite color?", c:["I have crayons.","My favorite color is green.","Green is bright."], a:1},
+{s:"10. Do you have any pets?", c:["My pets are small.","Yes, I have one dog.","I like animals."], a:1},
+{s:"11. How many people are in your family?", c:["My family is nice.","There are four people.","I live with my parents."], a:1},
+{s:"12. What is your father's job?", c:["He likes his job.","He is a policeman.","He goes to work."], a:1},
+{s:"13. What is your mother's name?", c:["Her name is Mom.","Her name is Linda.","She is at home."], a:1},
+{s:"14. What grade are you in?", c:["I like my school.","I am in the second grade.","The grade is high."], a:1},
+{s:"15. What is the name of your school?", c:["My school is big.","My school is Star Academy.","I go to school by bus."], a:1}
+]}
+]});
+
+PARTS.push({title:"Daily Greetings and Basics (การทักทายและพื้นฐานประจำวัน)", groups:[
+{id:"p2", title:"Daily Greetings and Basics — Q16-30", type:"mc", instr:"Choose the best answer for each question.", items:[
+{s:"16. How are you today?", c:["I am seven.","I'm fine, thanks for asking.","I go to the park."], a:1},
+{s:"17. What do you say when you meet someone new?", c:["See you later.","Nice to meet you.","Good luck."], a:1},
+{s:"18. What do you say when you need help?", c:["Help me!","Excuse me, can you help me?","What is this?"], a:1},
+{s:"19. What time is it now?", c:["It's ten thirty.","I am doing homework.","The clock is round."], a:0},
+{s:"20. What day is it today?", c:["Today is fun.","It is Friday.","It is hot."], a:1},
+{s:"21. What did you do yesterday?", c:["I visited my grandma.","I will go tomorrow.","I like yesterday."], a:0},
+{s:"22. What are you going to do tomorrow?", c:["I went to the zoo.","I'm going to play football.","I have a book."], a:1},
+{s:"23. How is the weather today?", c:["It is cloudy and warm.","The weather is good.","I have a jacket."], a:0},
+{s:"24. What should you say after someone gives you a gift?", c:["It's beautiful.","Thank you.","I want another one."], a:1},
+{s:"25. What do you say when you accidentally make a mistake?", c:["It's okay.","I am sorry.","Don't worry."], a:1},
+{s:"26. Can you speak English?", c:["Yes, I can speak a little.","I am a student.","English is hard."], a:0},
+{s:"27. What is your phone number?", c:["I don't use a phone.","It's 081-234-5678.","The phone is black."], a:1},
+{s:"28. Do you like this song?", c:["The song is fast.","Yes, I like it a lot.","I hear music."], a:1},
+{s:"29. Is it cold outside?", c:["I wear a shirt.","No, it's quite warm.","The sun is bright."], a:1},
+{s:"30. What is your favorite season?", c:["There are four seasons.","My favorite is summer.","I like all seasons."], a:1}
+]}
+]});
+
+PARTS.push({title:"Food and Preferences (อาหารและความชอบ)", groups:[
+{id:"p3", title:"Food and Preferences — Q31-45", type:"mc", instr:"Choose the best answer for each question.", items:[
+{s:"31. What is your favorite food?", c:["I like to eat.","My favorite food is spaghetti.","The food is hot."], a:1},
+{s:"32. What will you eat for dinner tonight?", c:["I ate rice yesterday.","I will eat chicken soup.","Dinner is at seven."], a:1},
+{s:"33. What do you drink with your breakfast?", c:["I drink a glass of milk.","I drink water.","The milk is cold."], a:0},
+{s:"34. Do you like fruit?", c:["I eat a lot.","Yes, I like bananas and grapes.","Fruit is healthy."], a:1},
+{s:"35. What is your favorite dessert?", c:["I eat dessert after dinner.","I love ice cream.","The dessert is sweet."], a:1},
+{s:"36. Can you pass the water, please?", c:["I am thirsty.","Here you go.","Water is clear."], a:1},
+{s:"37. Do you want more rice?", c:["No, thank you. I'm full.","I like rice.","The rice is white."], a:0},
+{s:"38. Which is better, cake or cookies?", c:["I bought both.","They are sweet.","I think cake is better."], a:2},
+{s:"39. What time do you eat lunch?", c:["I eat fast.","I eat lunch at noon.","Lunch is good."], a:1},
+{s:"40. Have you had breakfast yet?", c:["I am hungry.","Yes, I had it already.","Breakfast is important."], a:1},
+{s:"41. What is your favorite drink?", c:["My favorite drink is apple juice.","I am drinking now.","The cup is big."], a:0},
+{s:"42. Would you like a chocolate or a candy?", c:["They are sweet.","I want to buy them.","I would like a chocolate, please."], a:2},
+{s:"43. Is the soup hot?", c:["I like soup.","Yes, it is very hot.","The soup is yummy."], a:1},
+{s:"44. Can you set the table for four people?", c:["The table is clean.","Yes, I can set it now.","I will help you."], a:1},
+{s:"45. What do you put on your bread?", c:["I put butter and jam.","I like bread.","Bread is soft."], a:0}
+]}
+]});
+
+PARTS.push({title:"Daily Routines and School (กิจวัตรประจำวันและโรงเรียน)", groups:[
+{id:"p4", title:"Daily Routines and School — Q46-60", type:"mc", instr:"Choose the best answer for each question.", items:[
+{s:"46. What time do you wake up?", c:["I am sleeping.","I wake up at six o'clock.","The sun is up."], a:1},
+{s:"47. How do you go to school?", c:["I go to a big school.","I go to school by car.","I like school."], a:1},
+{s:"48. What is the first thing you do when you get to school?", c:["I greet my teacher.","I play with friends.","I eat a snack."], a:0},
+{s:"49. What do you do during P.E. class?", c:["I read a book.","I play games and exercise.","I study math."], a:1},
+{s:"50. Do you like doing homework?", c:["Yes, I like Math homework.","I have many books.","Homework is long."], a:0},
+{s:"51. What do you do after school?", c:["I wake up again.","I play with my toys.","I go to the bank."], a:1},
+{s:"52. Where do you keep your books?", c:["On the floor.","In my backpack.","Under the bed."], a:1},
+{s:"53. What time do you go to bed?", c:["I go to bed at nine p.m.","I like my bed.","I sleep well."], a:0},
+{s:"54. Do you brush your teeth before bed?", c:["I brush my hair.","Yes, I always brush them.","My teeth are white."], a:1},
+{s:"55. What should you remember to do before leaving the house?", c:["Play a game.","Lock the door.","Cook dinner."], a:1},
+{s:"56. What do you use to clean the floor?", c:["I use a broom.","I use a pencil.","I use a towel."], a:0},
+{s:"57. How often do you visit the library?", c:["The library is big.","I visit it once a week.","I like to read."], a:1},
+{s:"58. What is your teacher's name?", c:["My teacher's name is Ms. Jane.","My teacher is kind.","She teaches English."], a:0},
+{s:"59. Have you packed your school bag?", c:["My bag is heavy.","Yes, I packed it last night.","I like my bag."], a:1},
+{s:"60. What is your favorite thing to do in the classroom?", c:["I like to draw pictures.","I like to sit.","I like the board."], a:0}
+]}
+]});
+
+PARTS.push({title:"Future and Fun (อนาคตและความสนุก)", groups:[
+{id:"p5", title:"Future and Fun — Q61-70", type:"mc", instr:"Choose the best answer for each question.", items:[
+{s:"61. What do you want to be when you grow up?", c:["I am growing now.","I want to be a pilot.","I like big planes."], a:1},
+{s:"62. What is your dream job?", c:["My dream is good.","My dream job is a firefighter.","I like to help."], a:1},
+{s:"63. What is your favorite toy?", c:["I have many toys.","My favorite toy is a robot.","The robot is small."], a:1},
+{s:"64. Where do you like to go on holiday?", c:["I like to go to the mountains.","Holiday is long.","I go with my family."], a:0},
+{s:"65. What is your favorite game?", c:["I play games fast.","My favorite game is 'Snakes and Ladders'.","The game is long."], a:1},
+{s:"66. Who is your favorite superhero?", c:["I like movies.","My favorite is Wonder Woman.","She is strong."], a:1},
+{s:"67. If you could have any superpower, what would it be?", c:["Superpowers are cool.","I would like to fly.","I like to run fast."], a:1},
+{s:"68. What are you looking forward to this weekend?", c:["The weekend is near.","I am going to the zoo.","I like weekends."], a:1},
+{s:"69. What is the coolest thing you have ever built?", c:["I like building.","I built a big sandcastle.","The sand is yellow."], a:1},
+{s:"70. What is a place you want to visit someday?", c:["I want to go far.","I want to visit Japan.","I like to travel."], a:1}
+]}
+]});
+
+PARTS.push({title:"Manners and Asking (มารยาทและการถาม)", groups:[
+{id:"p6", title:"Manners and Asking — Q71-80", type:"mc", instr:"Choose the best answer for each question.", items:[
+{s:'71. When someone says "Thank you," what is the best reply?', c:["You are good.","You're welcome.","I like you."], a:1},
+{s:"72. Should you knock before entering a room?", c:["Yes, it is good manners.","No, I shouldn't.","I like the room."], a:0},
+{s:"73. May I have a cookie?", c:["The cookie is sweet.","Yes, you may.","I don't like cookies."], a:1},
+{s:"74. Do you mind if I sit here?", c:["I am sitting.","No, I don't mind at all.","The chair is empty."], a:1},
+{s:"75. Is it polite to interrupt when someone is talking?", c:["Yes, it is.","No, it is not polite.","I like talking."], a:1},
+{s:"76. Could you speak more slowly, please?", c:["I am slow.","Okay, I will speak slower.","I can't talk."], a:1},
+{s:"77. What do you say when you don't understand?", c:["I don't know this.","Could you say that again?","I am listening."], a:1},
+{s:"78. What is the rule about using pencils in class?", c:["Pencils are colorful.","Use them gently and don't chew them.","I have many pencils."], a:1},
+{s:"79. Are you ready to start?", c:["The start is now.","Yes, I am ready.","I like to start."], a:1},
+{s:"80. What should you do before crossing the street?", c:["Run fast.","Look left and right.","Sing a song."], a:1}
+]}
+]});
+
+PARTS.push({title:"More Everyday Dialogue (บทสนทนาประจำวันเพิ่มเติม)", groups:[
+{id:"p7", title:"More Everyday Dialogue — Q81-100", type:"mc", instr:"Choose the best answer for each question.", items:[
+{s:"81. What time do you have P.E. class?", c:["I like P.E.","We have it at 10:00 a.m.","The class is fun."], a:1},
+{s:"82. Did you bring your water bottle?", c:["The bottle is full.","Yes, it's in my bag.","I drink water."], a:1},
+{s:"83. What is your favorite fruit?", c:["I bought fruit.","My favorite is mango.","The fruit is yellow."], a:1},
+{s:"84. What do you usually do after dinner?", c:["I eat dinner late.","I watch television with my family.","I take a shower."], a:1},
+{s:"85. Are you good at drawing?", c:["I like art.","Yes, I can draw animals well.","The paper is white."], a:1},
+{s:"86. How long does it take you to get to school?", c:["I like the car ride.","It takes about 15 minutes.","The school is far."], a:1},
+{s:"87. What is your favorite cartoon?", c:["I watch cartoons every day.","My favorite is Tom and Jerry.","The cartoon is funny."], a:1},
+{s:"88. Where did you put your school uniform?", c:["I put it in the washing machine.","It is clean.","I wear it now."], a:0},
+{s:"89. Can you tell me a story?", c:["The story is long.","I can tell you about a little bear.","I like stories."], a:1},
+{s:"90. Do you like reading books?", c:["Yes, I read every night.","The book is new.","I have many books."], a:0},
+{s:"91. Which animal is the tallest?", c:["The giraffe is tall.","The giraffe is the tallest.","I see animals."], a:1},
+{s:"92. What are you looking at?", c:["I'm looking at the bird outside.","I am looking now.","The bird is small."], a:0},
+{s:"93. How does this pen work?", c:["The pen is red.","You press the button on top.","I have a pen."], a:1},
+{s:"94. What color is the sofa in your living room?", c:["My living room is big.","It is a light gray color.","I sit on the sofa."], a:1},
+{s:"95. What is the name of your best friend's pet?", c:["My friend has a dog.","His pet's name is Sparky.","Sparky is a dog."], a:1},
+{s:"96. Do you need a jacket or a sweater?", c:["I need a jacket.","I am wearing clothes.","The clothes are new."], a:0},
+{s:"97. What is your favorite song?", c:["I like to sing.","My favorite song is 'Twinkle Star'.","The song is fast."], a:1},
+{s:"98. Can you tie your own shoelaces?", c:["Yes, I can tie them.","My shoes are new.","I wear shoes."], a:0},
+{s:"99. What do you say when you leave your house for the day?", c:["See you later, everyone!","I am here.","Let's go!"], a:0},
+{s:"100. Is your bedroom tidy?", c:["My bedroom is big.","Yes, I cleaned it this morning.","I like my room."], a:1}
+]}
+]});
+
+/* ============ ENGINE (single continuous page, no section navigation) ============ */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getLastScore(){try{return JSON.parse(localStorage.getItem('convquiz_last')||'null');}catch(e){return null;}}
+function saveLastScore(score,total){localStorage.setItem('convquiz_last',JSON.stringify({score:score,total:total,date:new Date().toLocaleDateString()}));}
+
+const app = document.getElementById('app');
+let ST = null;
+
+function totalCount(){ let t=0; PARTS.forEach(p=>t+=p.groups[0].items.length); return t; }
+
+function render(){
+  ST = {score:0, doneCount:0, total: totalCount()};
+  let html = '';
+  html += '<header class="top"><h1>💬 100 Basic English Conversation Quiz</h1></header>';
+  html += '<div class="homehead"><p>Answer each question below — every answer is checked right away. Scroll through all 100 questions at your own pace.</p></div>';
+  html += '<div class="overall"><div>Progress</div><div class="big" id="progressBig">0 / '+ST.total+'</div>';
+  const last = getLastScore();
+  if(last){ html += '<div style="margin-top:6px">Last attempt: '+last.score+' / '+last.total+' ('+last.date+')</div>'; }
+  html += '</div>';
+  html += '<div style="text-align:center;margin-bottom:10px"><button class="btn secondary" id="resetBtn">🔄 Reset &amp; Shuffle Again</button></div>';
+
+  let idxCounter = 0;
+  PARTS.forEach((part,pi)=>{
+    html += '<div class="part-title"><div class="num">'+(pi+1)+'</div><h2 style="margin:0">'+part.title+'</h2></div>';
+    part.groups[0].items.forEach(item=>{
+      const idx = idxCounter++;
+      html += '<div class="card">'+renderMcHTML(item, idx)+'</div>';
+    });
+  });
+  html += '<div id="finishWrap" style="margin:24px 0;"></div>';
+  app.innerHTML = html;
+
+  idxCounter = 0;
+  PARTS.forEach(part=>{
+    part.groups[0].items.forEach(item=>{
+      const idx = idxCounter++;
+      wireMc(item, idx);
+    });
+  });
+  document.getElementById('resetBtn').addEventListener('click', render);
+  window.scrollTo(0,0);
+}
+
+function updateProgress(){
+  document.getElementById('progressBig').textContent = ST.doneCount+' / '+ST.total;
+}
+function checkAllDone(){
+  ST.doneCount++;
+  updateProgress();
+  if(ST.doneCount>=ST.total){
+    saveLastScore(ST.score, ST.total);
+    const pct = Math.round(ST.score/ST.total*100);
+    document.getElementById('finishWrap').innerHTML =
+      '<div class="card summary"><div>All done! 🎉</div><div class="big">'+ST.score+' / '+ST.total+'</div>'+
+      '<div style="color:var(--sub)">('+pct+'%)</div></div>';
+    window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+  }
+}
+
+function renderMcHTML(item, idx){
+  const choices = shuffle(item.c.slice());
+  const answerVal = item.c[item.a];
+  let html = '<div class="qtext">'+item.s+'</div>';
+  html += '<div class="choices" id="choicesRow_'+idx+'"></div>';
+  html += '<div style="display:none" id="choicesData_'+idx+'">'+JSON.stringify(choices)+'</div>';
+  html += '<div style="display:none" id="answerData_'+idx+'">'+answerVal.replace(/"/g,'&quot;')+'</div>';
+  return html;
+}
+function wireMc(item, idx){
+  const choices = JSON.parse(document.getElementById('choicesData_'+idx).textContent);
+  const answerVal = document.getElementById('answerData_'+idx).textContent;
+  const row = document.getElementById('choicesRow_'+idx);
+  const btns = [];
+  choices.forEach(ch=>{
+    const b = document.createElement('button');
+    b.className='chip'; b.type='button'; b.textContent=ch;
+    b.addEventListener('click', ()=>{
+      btns.forEach(x=>x.classList.add('disabled'));
+      const correct = ch===answerVal;
+      b.classList.add(correct?'correct':'wrong');
+      if(!correct){ btns.forEach(x=>{ if(x.textContent===answerVal) x.classList.add('correct'); }); }
+      if(correct) ST.score+=1;
+      checkAllDone();
+    });
+    btns.push(b);
+    row.appendChild(b);
+  });
+}
+
+/* ============ INIT ============ */
+render();
+</script>
